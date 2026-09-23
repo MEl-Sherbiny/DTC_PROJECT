@@ -1,0 +1,1134 @@
+
+graduation_project.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000726  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000002  00800060  00800060  0000079a  2**0
+                  ALLOC
+  2 .stab         000009cc  00000000  00000000  0000079c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      000004fe  00000000  00000000  00001168  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 9f 02 	jmp	0x53e	; 0x53e <__vector_16>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 36       	cpi	r26, 0x62	; 98
+  6c:	b1 07       	cpc	r27, r17
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 27 03 	call	0x64e	; 0x64e <main>
+  74:	0c 94 91 03 	jmp	0x722	; 0x722 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <MADC_voidInit>:
+#include "ADC.h"
+
+void (*ADC_ptr)(void) ;
+
+void MADC_voidInit (u8 A_u8Prescaller , u8 A_u8Ref)
+{
+  7c:	df 93       	push	r29
+  7e:	cf 93       	push	r28
+  80:	00 d0       	rcall	.+0      	; 0x82 <MADC_voidInit+0x6>
+  82:	00 d0       	rcall	.+0      	; 0x84 <MADC_voidInit+0x8>
+  84:	00 d0       	rcall	.+0      	; 0x86 <MADC_voidInit+0xa>
+  86:	cd b7       	in	r28, 0x3d	; 61
+  88:	de b7       	in	r29, 0x3e	; 62
+  8a:	89 83       	std	Y+1, r24	; 0x01
+  8c:	6a 83       	std	Y+2, r22	; 0x02
+	switch (A_u8Ref)
+  8e:	8a 81       	ldd	r24, Y+2	; 0x02
+  90:	28 2f       	mov	r18, r24
+  92:	30 e0       	ldi	r19, 0x00	; 0
+  94:	3e 83       	std	Y+6, r19	; 0x06
+  96:	2d 83       	std	Y+5, r18	; 0x05
+  98:	8d 81       	ldd	r24, Y+5	; 0x05
+  9a:	9e 81       	ldd	r25, Y+6	; 0x06
+  9c:	81 30       	cpi	r24, 0x01	; 1
+  9e:	91 05       	cpc	r25, r1
+  a0:	c1 f0       	breq	.+48     	; 0xd2 <MADC_voidInit+0x56>
+  a2:	2d 81       	ldd	r18, Y+5	; 0x05
+  a4:	3e 81       	ldd	r19, Y+6	; 0x06
+  a6:	22 30       	cpi	r18, 0x02	; 2
+  a8:	31 05       	cpc	r19, r1
+  aa:	11 f1       	breq	.+68     	; 0xf0 <MADC_voidInit+0x74>
+  ac:	8d 81       	ldd	r24, Y+5	; 0x05
+  ae:	9e 81       	ldd	r25, Y+6	; 0x06
+  b0:	00 97       	sbiw	r24, 0x00	; 0
+  b2:	61 f5       	brne	.+88     	; 0x10c <MADC_voidInit+0x90>
+	{
+	case  ADC_REF_EXTERNAL      :
+		CLR_BIT(ADMUX , 6) ;
+  b4:	a7 e2       	ldi	r26, 0x27	; 39
+  b6:	b0 e0       	ldi	r27, 0x00	; 0
+  b8:	e7 e2       	ldi	r30, 0x27	; 39
+  ba:	f0 e0       	ldi	r31, 0x00	; 0
+  bc:	80 81       	ld	r24, Z
+  be:	8f 7b       	andi	r24, 0xBF	; 191
+  c0:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 7) ;
+  c2:	a7 e2       	ldi	r26, 0x27	; 39
+  c4:	b0 e0       	ldi	r27, 0x00	; 0
+  c6:	e7 e2       	ldi	r30, 0x27	; 39
+  c8:	f0 e0       	ldi	r31, 0x00	; 0
+  ca:	80 81       	ld	r24, Z
+  cc:	8f 77       	andi	r24, 0x7F	; 127
+  ce:	8c 93       	st	X, r24
+  d0:	1d c0       	rjmp	.+58     	; 0x10c <MADC_voidInit+0x90>
+		break ;
+	case  ADC_REF_AVCC          :
+		SET_BIT(ADMUX , 6) ;
+  d2:	a7 e2       	ldi	r26, 0x27	; 39
+  d4:	b0 e0       	ldi	r27, 0x00	; 0
+  d6:	e7 e2       	ldi	r30, 0x27	; 39
+  d8:	f0 e0       	ldi	r31, 0x00	; 0
+  da:	80 81       	ld	r24, Z
+  dc:	80 64       	ori	r24, 0x40	; 64
+  de:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 7) ;
+  e0:	a7 e2       	ldi	r26, 0x27	; 39
+  e2:	b0 e0       	ldi	r27, 0x00	; 0
+  e4:	e7 e2       	ldi	r30, 0x27	; 39
+  e6:	f0 e0       	ldi	r31, 0x00	; 0
+  e8:	80 81       	ld	r24, Z
+  ea:	8f 77       	andi	r24, 0x7F	; 127
+  ec:	8c 93       	st	X, r24
+  ee:	0e c0       	rjmp	.+28     	; 0x10c <MADC_voidInit+0x90>
+		break ;
+	case  ADC_REF_INTERNAL_2_56 :
+		SET_BIT(ADMUX , 6) ;
+  f0:	a7 e2       	ldi	r26, 0x27	; 39
+  f2:	b0 e0       	ldi	r27, 0x00	; 0
+  f4:	e7 e2       	ldi	r30, 0x27	; 39
+  f6:	f0 e0       	ldi	r31, 0x00	; 0
+  f8:	80 81       	ld	r24, Z
+  fa:	80 64       	ori	r24, 0x40	; 64
+  fc:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 7) ;
+  fe:	a7 e2       	ldi	r26, 0x27	; 39
+ 100:	b0 e0       	ldi	r27, 0x00	; 0
+ 102:	e7 e2       	ldi	r30, 0x27	; 39
+ 104:	f0 e0       	ldi	r31, 0x00	; 0
+ 106:	80 81       	ld	r24, Z
+ 108:	80 68       	ori	r24, 0x80	; 128
+ 10a:	8c 93       	st	X, r24
+		break ;
+	}
+
+	switch (A_u8Prescaller)
+ 10c:	89 81       	ldd	r24, Y+1	; 0x01
+ 10e:	28 2f       	mov	r18, r24
+ 110:	30 e0       	ldi	r19, 0x00	; 0
+ 112:	3c 83       	std	Y+4, r19	; 0x04
+ 114:	2b 83       	std	Y+3, r18	; 0x03
+ 116:	8b 81       	ldd	r24, Y+3	; 0x03
+ 118:	9c 81       	ldd	r25, Y+4	; 0x04
+ 11a:	80 31       	cpi	r24, 0x10	; 16
+ 11c:	91 05       	cpc	r25, r1
+ 11e:	09 f4       	brne	.+2      	; 0x122 <MADC_voidInit+0xa6>
+ 120:	6b c0       	rjmp	.+214    	; 0x1f8 <MADC_voidInit+0x17c>
+ 122:	2b 81       	ldd	r18, Y+3	; 0x03
+ 124:	3c 81       	ldd	r19, Y+4	; 0x04
+ 126:	21 31       	cpi	r18, 0x11	; 17
+ 128:	31 05       	cpc	r19, r1
+ 12a:	8c f4       	brge	.+34     	; 0x14e <MADC_voidInit+0xd2>
+ 12c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 12e:	9c 81       	ldd	r25, Y+4	; 0x04
+ 130:	84 30       	cpi	r24, 0x04	; 4
+ 132:	91 05       	cpc	r25, r1
+ 134:	a9 f1       	breq	.+106    	; 0x1a0 <MADC_voidInit+0x124>
+ 136:	2b 81       	ldd	r18, Y+3	; 0x03
+ 138:	3c 81       	ldd	r19, Y+4	; 0x04
+ 13a:	28 30       	cpi	r18, 0x08	; 8
+ 13c:	31 05       	cpc	r19, r1
+ 13e:	09 f4       	brne	.+2      	; 0x142 <MADC_voidInit+0xc6>
+ 140:	45 c0       	rjmp	.+138    	; 0x1cc <MADC_voidInit+0x150>
+ 142:	8b 81       	ldd	r24, Y+3	; 0x03
+ 144:	9c 81       	ldd	r25, Y+4	; 0x04
+ 146:	82 30       	cpi	r24, 0x02	; 2
+ 148:	91 05       	cpc	r25, r1
+ 14a:	a1 f0       	breq	.+40     	; 0x174 <MADC_voidInit+0xf8>
+ 14c:	ac c0       	rjmp	.+344    	; 0x2a6 <MADC_voidInit+0x22a>
+ 14e:	2b 81       	ldd	r18, Y+3	; 0x03
+ 150:	3c 81       	ldd	r19, Y+4	; 0x04
+ 152:	20 34       	cpi	r18, 0x40	; 64
+ 154:	31 05       	cpc	r19, r1
+ 156:	09 f4       	brne	.+2      	; 0x15a <MADC_voidInit+0xde>
+ 158:	7b c0       	rjmp	.+246    	; 0x250 <MADC_voidInit+0x1d4>
+ 15a:	8b 81       	ldd	r24, Y+3	; 0x03
+ 15c:	9c 81       	ldd	r25, Y+4	; 0x04
+ 15e:	80 38       	cpi	r24, 0x80	; 128
+ 160:	91 05       	cpc	r25, r1
+ 162:	09 f4       	brne	.+2      	; 0x166 <MADC_voidInit+0xea>
+ 164:	8b c0       	rjmp	.+278    	; 0x27c <MADC_voidInit+0x200>
+ 166:	2b 81       	ldd	r18, Y+3	; 0x03
+ 168:	3c 81       	ldd	r19, Y+4	; 0x04
+ 16a:	20 32       	cpi	r18, 0x20	; 32
+ 16c:	31 05       	cpc	r19, r1
+ 16e:	09 f4       	brne	.+2      	; 0x172 <MADC_voidInit+0xf6>
+ 170:	59 c0       	rjmp	.+178    	; 0x224 <MADC_voidInit+0x1a8>
+ 172:	99 c0       	rjmp	.+306    	; 0x2a6 <MADC_voidInit+0x22a>
+	{
+	case ADC_PRESCALLER2   :
+		SET_BIT(ADCSRA , 0) ;
+ 174:	a6 e2       	ldi	r26, 0x26	; 38
+ 176:	b0 e0       	ldi	r27, 0x00	; 0
+ 178:	e6 e2       	ldi	r30, 0x26	; 38
+ 17a:	f0 e0       	ldi	r31, 0x00	; 0
+ 17c:	80 81       	ld	r24, Z
+ 17e:	81 60       	ori	r24, 0x01	; 1
+ 180:	8c 93       	st	X, r24
+		CLR_BIT(ADCSRA , 1) ;
+ 182:	a6 e2       	ldi	r26, 0x26	; 38
+ 184:	b0 e0       	ldi	r27, 0x00	; 0
+ 186:	e6 e2       	ldi	r30, 0x26	; 38
+ 188:	f0 e0       	ldi	r31, 0x00	; 0
+ 18a:	80 81       	ld	r24, Z
+ 18c:	8d 7f       	andi	r24, 0xFD	; 253
+ 18e:	8c 93       	st	X, r24
+		CLR_BIT(ADCSRA , 2) ;
+ 190:	a6 e2       	ldi	r26, 0x26	; 38
+ 192:	b0 e0       	ldi	r27, 0x00	; 0
+ 194:	e6 e2       	ldi	r30, 0x26	; 38
+ 196:	f0 e0       	ldi	r31, 0x00	; 0
+ 198:	80 81       	ld	r24, Z
+ 19a:	8b 7f       	andi	r24, 0xFB	; 251
+ 19c:	8c 93       	st	X, r24
+ 19e:	83 c0       	rjmp	.+262    	; 0x2a6 <MADC_voidInit+0x22a>
+		break ;
+	case ADC_PRESCALLER4   :
+		CLR_BIT(ADCSRA , 0) ;
+ 1a0:	a6 e2       	ldi	r26, 0x26	; 38
+ 1a2:	b0 e0       	ldi	r27, 0x00	; 0
+ 1a4:	e6 e2       	ldi	r30, 0x26	; 38
+ 1a6:	f0 e0       	ldi	r31, 0x00	; 0
+ 1a8:	80 81       	ld	r24, Z
+ 1aa:	8e 7f       	andi	r24, 0xFE	; 254
+ 1ac:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 1) ;
+ 1ae:	a6 e2       	ldi	r26, 0x26	; 38
+ 1b0:	b0 e0       	ldi	r27, 0x00	; 0
+ 1b2:	e6 e2       	ldi	r30, 0x26	; 38
+ 1b4:	f0 e0       	ldi	r31, 0x00	; 0
+ 1b6:	80 81       	ld	r24, Z
+ 1b8:	82 60       	ori	r24, 0x02	; 2
+ 1ba:	8c 93       	st	X, r24
+		CLR_BIT(ADCSRA , 2) ;
+ 1bc:	a6 e2       	ldi	r26, 0x26	; 38
+ 1be:	b0 e0       	ldi	r27, 0x00	; 0
+ 1c0:	e6 e2       	ldi	r30, 0x26	; 38
+ 1c2:	f0 e0       	ldi	r31, 0x00	; 0
+ 1c4:	80 81       	ld	r24, Z
+ 1c6:	8b 7f       	andi	r24, 0xFB	; 251
+ 1c8:	8c 93       	st	X, r24
+ 1ca:	6d c0       	rjmp	.+218    	; 0x2a6 <MADC_voidInit+0x22a>
+		break ;
+	case ADC_PRESCALLER8   :
+		SET_BIT(ADCSRA , 0) ;
+ 1cc:	a6 e2       	ldi	r26, 0x26	; 38
+ 1ce:	b0 e0       	ldi	r27, 0x00	; 0
+ 1d0:	e6 e2       	ldi	r30, 0x26	; 38
+ 1d2:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d4:	80 81       	ld	r24, Z
+ 1d6:	81 60       	ori	r24, 0x01	; 1
+ 1d8:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 1) ;
+ 1da:	a6 e2       	ldi	r26, 0x26	; 38
+ 1dc:	b0 e0       	ldi	r27, 0x00	; 0
+ 1de:	e6 e2       	ldi	r30, 0x26	; 38
+ 1e0:	f0 e0       	ldi	r31, 0x00	; 0
+ 1e2:	80 81       	ld	r24, Z
+ 1e4:	82 60       	ori	r24, 0x02	; 2
+ 1e6:	8c 93       	st	X, r24
+		CLR_BIT(ADCSRA , 2) ;
+ 1e8:	a6 e2       	ldi	r26, 0x26	; 38
+ 1ea:	b0 e0       	ldi	r27, 0x00	; 0
+ 1ec:	e6 e2       	ldi	r30, 0x26	; 38
+ 1ee:	f0 e0       	ldi	r31, 0x00	; 0
+ 1f0:	80 81       	ld	r24, Z
+ 1f2:	8b 7f       	andi	r24, 0xFB	; 251
+ 1f4:	8c 93       	st	X, r24
+ 1f6:	57 c0       	rjmp	.+174    	; 0x2a6 <MADC_voidInit+0x22a>
+		break ;
+	case ADC_PRESCALLER16  :
+		CLR_BIT(ADCSRA , 0) ;
+ 1f8:	a6 e2       	ldi	r26, 0x26	; 38
+ 1fa:	b0 e0       	ldi	r27, 0x00	; 0
+ 1fc:	e6 e2       	ldi	r30, 0x26	; 38
+ 1fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 200:	80 81       	ld	r24, Z
+ 202:	8e 7f       	andi	r24, 0xFE	; 254
+ 204:	8c 93       	st	X, r24
+		CLR_BIT(ADCSRA , 1) ;
+ 206:	a6 e2       	ldi	r26, 0x26	; 38
+ 208:	b0 e0       	ldi	r27, 0x00	; 0
+ 20a:	e6 e2       	ldi	r30, 0x26	; 38
+ 20c:	f0 e0       	ldi	r31, 0x00	; 0
+ 20e:	80 81       	ld	r24, Z
+ 210:	8d 7f       	andi	r24, 0xFD	; 253
+ 212:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 2) ;
+ 214:	a6 e2       	ldi	r26, 0x26	; 38
+ 216:	b0 e0       	ldi	r27, 0x00	; 0
+ 218:	e6 e2       	ldi	r30, 0x26	; 38
+ 21a:	f0 e0       	ldi	r31, 0x00	; 0
+ 21c:	80 81       	ld	r24, Z
+ 21e:	84 60       	ori	r24, 0x04	; 4
+ 220:	8c 93       	st	X, r24
+ 222:	41 c0       	rjmp	.+130    	; 0x2a6 <MADC_voidInit+0x22a>
+		break ;
+	case ADC_PRESCALLER32  :
+		SET_BIT(ADCSRA , 0) ;
+ 224:	a6 e2       	ldi	r26, 0x26	; 38
+ 226:	b0 e0       	ldi	r27, 0x00	; 0
+ 228:	e6 e2       	ldi	r30, 0x26	; 38
+ 22a:	f0 e0       	ldi	r31, 0x00	; 0
+ 22c:	80 81       	ld	r24, Z
+ 22e:	81 60       	ori	r24, 0x01	; 1
+ 230:	8c 93       	st	X, r24
+		CLR_BIT(ADCSRA , 1) ;
+ 232:	a6 e2       	ldi	r26, 0x26	; 38
+ 234:	b0 e0       	ldi	r27, 0x00	; 0
+ 236:	e6 e2       	ldi	r30, 0x26	; 38
+ 238:	f0 e0       	ldi	r31, 0x00	; 0
+ 23a:	80 81       	ld	r24, Z
+ 23c:	8d 7f       	andi	r24, 0xFD	; 253
+ 23e:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 2) ;
+ 240:	a6 e2       	ldi	r26, 0x26	; 38
+ 242:	b0 e0       	ldi	r27, 0x00	; 0
+ 244:	e6 e2       	ldi	r30, 0x26	; 38
+ 246:	f0 e0       	ldi	r31, 0x00	; 0
+ 248:	80 81       	ld	r24, Z
+ 24a:	84 60       	ori	r24, 0x04	; 4
+ 24c:	8c 93       	st	X, r24
+ 24e:	2b c0       	rjmp	.+86     	; 0x2a6 <MADC_voidInit+0x22a>
+		break ;
+	case ADC_PRESCALLER64  :
+		SET_BIT(ADCSRA , 0) ;
+ 250:	a6 e2       	ldi	r26, 0x26	; 38
+ 252:	b0 e0       	ldi	r27, 0x00	; 0
+ 254:	e6 e2       	ldi	r30, 0x26	; 38
+ 256:	f0 e0       	ldi	r31, 0x00	; 0
+ 258:	80 81       	ld	r24, Z
+ 25a:	81 60       	ori	r24, 0x01	; 1
+ 25c:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 1) ;
+ 25e:	a6 e2       	ldi	r26, 0x26	; 38
+ 260:	b0 e0       	ldi	r27, 0x00	; 0
+ 262:	e6 e2       	ldi	r30, 0x26	; 38
+ 264:	f0 e0       	ldi	r31, 0x00	; 0
+ 266:	80 81       	ld	r24, Z
+ 268:	82 60       	ori	r24, 0x02	; 2
+ 26a:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 2) ;
+ 26c:	a6 e2       	ldi	r26, 0x26	; 38
+ 26e:	b0 e0       	ldi	r27, 0x00	; 0
+ 270:	e6 e2       	ldi	r30, 0x26	; 38
+ 272:	f0 e0       	ldi	r31, 0x00	; 0
+ 274:	80 81       	ld	r24, Z
+ 276:	84 60       	ori	r24, 0x04	; 4
+ 278:	8c 93       	st	X, r24
+ 27a:	15 c0       	rjmp	.+42     	; 0x2a6 <MADC_voidInit+0x22a>
+		break ;
+	case ADC_PRESCALLER128 :
+		SET_BIT(ADCSRA , 0) ;
+ 27c:	a6 e2       	ldi	r26, 0x26	; 38
+ 27e:	b0 e0       	ldi	r27, 0x00	; 0
+ 280:	e6 e2       	ldi	r30, 0x26	; 38
+ 282:	f0 e0       	ldi	r31, 0x00	; 0
+ 284:	80 81       	ld	r24, Z
+ 286:	81 60       	ori	r24, 0x01	; 1
+ 288:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 1) ;
+ 28a:	a6 e2       	ldi	r26, 0x26	; 38
+ 28c:	b0 e0       	ldi	r27, 0x00	; 0
+ 28e:	e6 e2       	ldi	r30, 0x26	; 38
+ 290:	f0 e0       	ldi	r31, 0x00	; 0
+ 292:	80 81       	ld	r24, Z
+ 294:	82 60       	ori	r24, 0x02	; 2
+ 296:	8c 93       	st	X, r24
+		SET_BIT(ADCSRA , 2) ;
+ 298:	a6 e2       	ldi	r26, 0x26	; 38
+ 29a:	b0 e0       	ldi	r27, 0x00	; 0
+ 29c:	e6 e2       	ldi	r30, 0x26	; 38
+ 29e:	f0 e0       	ldi	r31, 0x00	; 0
+ 2a0:	80 81       	ld	r24, Z
+ 2a2:	84 60       	ori	r24, 0x04	; 4
+ 2a4:	8c 93       	st	X, r24
+#if ADC_INTERRUPT_ENABLE == 1
+	SET_BIT(SREG , 7) ;
+	SET_BIT(ADCSRA , 3) ;
+#endif
+
+	SET_BIT(ADCSRA , 7) ;
+ 2a6:	a6 e2       	ldi	r26, 0x26	; 38
+ 2a8:	b0 e0       	ldi	r27, 0x00	; 0
+ 2aa:	e6 e2       	ldi	r30, 0x26	; 38
+ 2ac:	f0 e0       	ldi	r31, 0x00	; 0
+ 2ae:	80 81       	ld	r24, Z
+ 2b0:	80 68       	ori	r24, 0x80	; 128
+ 2b2:	8c 93       	st	X, r24
+}
+ 2b4:	26 96       	adiw	r28, 0x06	; 6
+ 2b6:	0f b6       	in	r0, 0x3f	; 63
+ 2b8:	f8 94       	cli
+ 2ba:	de bf       	out	0x3e, r29	; 62
+ 2bc:	0f be       	out	0x3f, r0	; 63
+ 2be:	cd bf       	out	0x3d, r28	; 61
+ 2c0:	cf 91       	pop	r28
+ 2c2:	df 91       	pop	r29
+ 2c4:	08 95       	ret
+
+000002c6 <MADC_voidStartConversion>:
+
+void MADC_voidStartConversion (u8 A_u8ChannelNum)
+{
+ 2c6:	df 93       	push	r29
+ 2c8:	cf 93       	push	r28
+ 2ca:	00 d0       	rcall	.+0      	; 0x2cc <MADC_voidStartConversion+0x6>
+ 2cc:	0f 92       	push	r0
+ 2ce:	cd b7       	in	r28, 0x3d	; 61
+ 2d0:	de b7       	in	r29, 0x3e	; 62
+ 2d2:	89 83       	std	Y+1, r24	; 0x01
+	switch (A_u8ChannelNum)
+ 2d4:	89 81       	ldd	r24, Y+1	; 0x01
+ 2d6:	28 2f       	mov	r18, r24
+ 2d8:	30 e0       	ldi	r19, 0x00	; 0
+ 2da:	3b 83       	std	Y+3, r19	; 0x03
+ 2dc:	2a 83       	std	Y+2, r18	; 0x02
+ 2de:	8a 81       	ldd	r24, Y+2	; 0x02
+ 2e0:	9b 81       	ldd	r25, Y+3	; 0x03
+ 2e2:	83 30       	cpi	r24, 0x03	; 3
+ 2e4:	91 05       	cpc	r25, r1
+ 2e6:	09 f4       	brne	.+2      	; 0x2ea <MADC_voidStartConversion+0x24>
+ 2e8:	70 c0       	rjmp	.+224    	; 0x3ca <MADC_voidStartConversion+0x104>
+ 2ea:	2a 81       	ldd	r18, Y+2	; 0x02
+ 2ec:	3b 81       	ldd	r19, Y+3	; 0x03
+ 2ee:	24 30       	cpi	r18, 0x04	; 4
+ 2f0:	31 05       	cpc	r19, r1
+ 2f2:	84 f4       	brge	.+32     	; 0x314 <MADC_voidStartConversion+0x4e>
+ 2f4:	8a 81       	ldd	r24, Y+2	; 0x02
+ 2f6:	9b 81       	ldd	r25, Y+3	; 0x03
+ 2f8:	81 30       	cpi	r24, 0x01	; 1
+ 2fa:	91 05       	cpc	r25, r1
+ 2fc:	d1 f1       	breq	.+116    	; 0x372 <MADC_voidStartConversion+0xac>
+ 2fe:	2a 81       	ldd	r18, Y+2	; 0x02
+ 300:	3b 81       	ldd	r19, Y+3	; 0x03
+ 302:	22 30       	cpi	r18, 0x02	; 2
+ 304:	31 05       	cpc	r19, r1
+ 306:	0c f0       	brlt	.+2      	; 0x30a <MADC_voidStartConversion+0x44>
+ 308:	4a c0       	rjmp	.+148    	; 0x39e <MADC_voidStartConversion+0xd8>
+ 30a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 30c:	9b 81       	ldd	r25, Y+3	; 0x03
+ 30e:	00 97       	sbiw	r24, 0x00	; 0
+ 310:	d1 f0       	breq	.+52     	; 0x346 <MADC_voidStartConversion+0x80>
+ 312:	c8 c0       	rjmp	.+400    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+ 314:	2a 81       	ldd	r18, Y+2	; 0x02
+ 316:	3b 81       	ldd	r19, Y+3	; 0x03
+ 318:	25 30       	cpi	r18, 0x05	; 5
+ 31a:	31 05       	cpc	r19, r1
+ 31c:	09 f4       	brne	.+2      	; 0x320 <MADC_voidStartConversion+0x5a>
+ 31e:	81 c0       	rjmp	.+258    	; 0x422 <MADC_voidStartConversion+0x15c>
+ 320:	8a 81       	ldd	r24, Y+2	; 0x02
+ 322:	9b 81       	ldd	r25, Y+3	; 0x03
+ 324:	85 30       	cpi	r24, 0x05	; 5
+ 326:	91 05       	cpc	r25, r1
+ 328:	0c f4       	brge	.+2      	; 0x32c <MADC_voidStartConversion+0x66>
+ 32a:	65 c0       	rjmp	.+202    	; 0x3f6 <MADC_voidStartConversion+0x130>
+ 32c:	2a 81       	ldd	r18, Y+2	; 0x02
+ 32e:	3b 81       	ldd	r19, Y+3	; 0x03
+ 330:	26 30       	cpi	r18, 0x06	; 6
+ 332:	31 05       	cpc	r19, r1
+ 334:	09 f4       	brne	.+2      	; 0x338 <MADC_voidStartConversion+0x72>
+ 336:	8b c0       	rjmp	.+278    	; 0x44e <MADC_voidStartConversion+0x188>
+ 338:	8a 81       	ldd	r24, Y+2	; 0x02
+ 33a:	9b 81       	ldd	r25, Y+3	; 0x03
+ 33c:	87 30       	cpi	r24, 0x07	; 7
+ 33e:	91 05       	cpc	r25, r1
+ 340:	09 f4       	brne	.+2      	; 0x344 <MADC_voidStartConversion+0x7e>
+ 342:	9b c0       	rjmp	.+310    	; 0x47a <MADC_voidStartConversion+0x1b4>
+ 344:	af c0       	rjmp	.+350    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+	{
+	case ADC_CH0 :
+		CLR_BIT(ADMUX , 0) ;
+ 346:	a7 e2       	ldi	r26, 0x27	; 39
+ 348:	b0 e0       	ldi	r27, 0x00	; 0
+ 34a:	e7 e2       	ldi	r30, 0x27	; 39
+ 34c:	f0 e0       	ldi	r31, 0x00	; 0
+ 34e:	80 81       	ld	r24, Z
+ 350:	8e 7f       	andi	r24, 0xFE	; 254
+ 352:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 1) ;
+ 354:	a7 e2       	ldi	r26, 0x27	; 39
+ 356:	b0 e0       	ldi	r27, 0x00	; 0
+ 358:	e7 e2       	ldi	r30, 0x27	; 39
+ 35a:	f0 e0       	ldi	r31, 0x00	; 0
+ 35c:	80 81       	ld	r24, Z
+ 35e:	8d 7f       	andi	r24, 0xFD	; 253
+ 360:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 2) ;
+ 362:	a7 e2       	ldi	r26, 0x27	; 39
+ 364:	b0 e0       	ldi	r27, 0x00	; 0
+ 366:	e7 e2       	ldi	r30, 0x27	; 39
+ 368:	f0 e0       	ldi	r31, 0x00	; 0
+ 36a:	80 81       	ld	r24, Z
+ 36c:	8b 7f       	andi	r24, 0xFB	; 251
+ 36e:	8c 93       	st	X, r24
+ 370:	99 c0       	rjmp	.+306    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH1 :
+		SET_BIT(ADMUX , 0) ;
+ 372:	a7 e2       	ldi	r26, 0x27	; 39
+ 374:	b0 e0       	ldi	r27, 0x00	; 0
+ 376:	e7 e2       	ldi	r30, 0x27	; 39
+ 378:	f0 e0       	ldi	r31, 0x00	; 0
+ 37a:	80 81       	ld	r24, Z
+ 37c:	81 60       	ori	r24, 0x01	; 1
+ 37e:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 1) ;
+ 380:	a7 e2       	ldi	r26, 0x27	; 39
+ 382:	b0 e0       	ldi	r27, 0x00	; 0
+ 384:	e7 e2       	ldi	r30, 0x27	; 39
+ 386:	f0 e0       	ldi	r31, 0x00	; 0
+ 388:	80 81       	ld	r24, Z
+ 38a:	8d 7f       	andi	r24, 0xFD	; 253
+ 38c:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 2) ;
+ 38e:	a7 e2       	ldi	r26, 0x27	; 39
+ 390:	b0 e0       	ldi	r27, 0x00	; 0
+ 392:	e7 e2       	ldi	r30, 0x27	; 39
+ 394:	f0 e0       	ldi	r31, 0x00	; 0
+ 396:	80 81       	ld	r24, Z
+ 398:	8b 7f       	andi	r24, 0xFB	; 251
+ 39a:	8c 93       	st	X, r24
+ 39c:	83 c0       	rjmp	.+262    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH2 :
+		CLR_BIT(ADMUX , 0) ;
+ 39e:	a7 e2       	ldi	r26, 0x27	; 39
+ 3a0:	b0 e0       	ldi	r27, 0x00	; 0
+ 3a2:	e7 e2       	ldi	r30, 0x27	; 39
+ 3a4:	f0 e0       	ldi	r31, 0x00	; 0
+ 3a6:	80 81       	ld	r24, Z
+ 3a8:	8e 7f       	andi	r24, 0xFE	; 254
+ 3aa:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 1) ;
+ 3ac:	a7 e2       	ldi	r26, 0x27	; 39
+ 3ae:	b0 e0       	ldi	r27, 0x00	; 0
+ 3b0:	e7 e2       	ldi	r30, 0x27	; 39
+ 3b2:	f0 e0       	ldi	r31, 0x00	; 0
+ 3b4:	80 81       	ld	r24, Z
+ 3b6:	82 60       	ori	r24, 0x02	; 2
+ 3b8:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 2) ;
+ 3ba:	a7 e2       	ldi	r26, 0x27	; 39
+ 3bc:	b0 e0       	ldi	r27, 0x00	; 0
+ 3be:	e7 e2       	ldi	r30, 0x27	; 39
+ 3c0:	f0 e0       	ldi	r31, 0x00	; 0
+ 3c2:	80 81       	ld	r24, Z
+ 3c4:	8b 7f       	andi	r24, 0xFB	; 251
+ 3c6:	8c 93       	st	X, r24
+ 3c8:	6d c0       	rjmp	.+218    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH3 :
+		SET_BIT(ADMUX , 0) ;
+ 3ca:	a7 e2       	ldi	r26, 0x27	; 39
+ 3cc:	b0 e0       	ldi	r27, 0x00	; 0
+ 3ce:	e7 e2       	ldi	r30, 0x27	; 39
+ 3d0:	f0 e0       	ldi	r31, 0x00	; 0
+ 3d2:	80 81       	ld	r24, Z
+ 3d4:	81 60       	ori	r24, 0x01	; 1
+ 3d6:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 1) ;
+ 3d8:	a7 e2       	ldi	r26, 0x27	; 39
+ 3da:	b0 e0       	ldi	r27, 0x00	; 0
+ 3dc:	e7 e2       	ldi	r30, 0x27	; 39
+ 3de:	f0 e0       	ldi	r31, 0x00	; 0
+ 3e0:	80 81       	ld	r24, Z
+ 3e2:	82 60       	ori	r24, 0x02	; 2
+ 3e4:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 2) ;
+ 3e6:	a7 e2       	ldi	r26, 0x27	; 39
+ 3e8:	b0 e0       	ldi	r27, 0x00	; 0
+ 3ea:	e7 e2       	ldi	r30, 0x27	; 39
+ 3ec:	f0 e0       	ldi	r31, 0x00	; 0
+ 3ee:	80 81       	ld	r24, Z
+ 3f0:	8b 7f       	andi	r24, 0xFB	; 251
+ 3f2:	8c 93       	st	X, r24
+ 3f4:	57 c0       	rjmp	.+174    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH4 :
+		CLR_BIT(ADMUX , 0) ;
+ 3f6:	a7 e2       	ldi	r26, 0x27	; 39
+ 3f8:	b0 e0       	ldi	r27, 0x00	; 0
+ 3fa:	e7 e2       	ldi	r30, 0x27	; 39
+ 3fc:	f0 e0       	ldi	r31, 0x00	; 0
+ 3fe:	80 81       	ld	r24, Z
+ 400:	8e 7f       	andi	r24, 0xFE	; 254
+ 402:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 1) ;
+ 404:	a7 e2       	ldi	r26, 0x27	; 39
+ 406:	b0 e0       	ldi	r27, 0x00	; 0
+ 408:	e7 e2       	ldi	r30, 0x27	; 39
+ 40a:	f0 e0       	ldi	r31, 0x00	; 0
+ 40c:	80 81       	ld	r24, Z
+ 40e:	8d 7f       	andi	r24, 0xFD	; 253
+ 410:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 2) ;
+ 412:	a7 e2       	ldi	r26, 0x27	; 39
+ 414:	b0 e0       	ldi	r27, 0x00	; 0
+ 416:	e7 e2       	ldi	r30, 0x27	; 39
+ 418:	f0 e0       	ldi	r31, 0x00	; 0
+ 41a:	80 81       	ld	r24, Z
+ 41c:	84 60       	ori	r24, 0x04	; 4
+ 41e:	8c 93       	st	X, r24
+ 420:	41 c0       	rjmp	.+130    	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH5 :
+		SET_BIT(ADMUX , 0) ;
+ 422:	a7 e2       	ldi	r26, 0x27	; 39
+ 424:	b0 e0       	ldi	r27, 0x00	; 0
+ 426:	e7 e2       	ldi	r30, 0x27	; 39
+ 428:	f0 e0       	ldi	r31, 0x00	; 0
+ 42a:	80 81       	ld	r24, Z
+ 42c:	81 60       	ori	r24, 0x01	; 1
+ 42e:	8c 93       	st	X, r24
+		CLR_BIT(ADMUX , 1) ;
+ 430:	a7 e2       	ldi	r26, 0x27	; 39
+ 432:	b0 e0       	ldi	r27, 0x00	; 0
+ 434:	e7 e2       	ldi	r30, 0x27	; 39
+ 436:	f0 e0       	ldi	r31, 0x00	; 0
+ 438:	80 81       	ld	r24, Z
+ 43a:	8d 7f       	andi	r24, 0xFD	; 253
+ 43c:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 2) ;
+ 43e:	a7 e2       	ldi	r26, 0x27	; 39
+ 440:	b0 e0       	ldi	r27, 0x00	; 0
+ 442:	e7 e2       	ldi	r30, 0x27	; 39
+ 444:	f0 e0       	ldi	r31, 0x00	; 0
+ 446:	80 81       	ld	r24, Z
+ 448:	84 60       	ori	r24, 0x04	; 4
+ 44a:	8c 93       	st	X, r24
+ 44c:	2b c0       	rjmp	.+86     	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH6 :
+		CLR_BIT(ADMUX , 0) ;
+ 44e:	a7 e2       	ldi	r26, 0x27	; 39
+ 450:	b0 e0       	ldi	r27, 0x00	; 0
+ 452:	e7 e2       	ldi	r30, 0x27	; 39
+ 454:	f0 e0       	ldi	r31, 0x00	; 0
+ 456:	80 81       	ld	r24, Z
+ 458:	8e 7f       	andi	r24, 0xFE	; 254
+ 45a:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 1) ;
+ 45c:	a7 e2       	ldi	r26, 0x27	; 39
+ 45e:	b0 e0       	ldi	r27, 0x00	; 0
+ 460:	e7 e2       	ldi	r30, 0x27	; 39
+ 462:	f0 e0       	ldi	r31, 0x00	; 0
+ 464:	80 81       	ld	r24, Z
+ 466:	82 60       	ori	r24, 0x02	; 2
+ 468:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 2) ;
+ 46a:	a7 e2       	ldi	r26, 0x27	; 39
+ 46c:	b0 e0       	ldi	r27, 0x00	; 0
+ 46e:	e7 e2       	ldi	r30, 0x27	; 39
+ 470:	f0 e0       	ldi	r31, 0x00	; 0
+ 472:	80 81       	ld	r24, Z
+ 474:	84 60       	ori	r24, 0x04	; 4
+ 476:	8c 93       	st	X, r24
+ 478:	15 c0       	rjmp	.+42     	; 0x4a4 <MADC_voidStartConversion+0x1de>
+		break ;
+	case ADC_CH7 :
+		SET_BIT(ADMUX , 0) ;
+ 47a:	a7 e2       	ldi	r26, 0x27	; 39
+ 47c:	b0 e0       	ldi	r27, 0x00	; 0
+ 47e:	e7 e2       	ldi	r30, 0x27	; 39
+ 480:	f0 e0       	ldi	r31, 0x00	; 0
+ 482:	80 81       	ld	r24, Z
+ 484:	81 60       	ori	r24, 0x01	; 1
+ 486:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 1) ;
+ 488:	a7 e2       	ldi	r26, 0x27	; 39
+ 48a:	b0 e0       	ldi	r27, 0x00	; 0
+ 48c:	e7 e2       	ldi	r30, 0x27	; 39
+ 48e:	f0 e0       	ldi	r31, 0x00	; 0
+ 490:	80 81       	ld	r24, Z
+ 492:	82 60       	ori	r24, 0x02	; 2
+ 494:	8c 93       	st	X, r24
+		SET_BIT(ADMUX , 2) ;
+ 496:	a7 e2       	ldi	r26, 0x27	; 39
+ 498:	b0 e0       	ldi	r27, 0x00	; 0
+ 49a:	e7 e2       	ldi	r30, 0x27	; 39
+ 49c:	f0 e0       	ldi	r31, 0x00	; 0
+ 49e:	80 81       	ld	r24, Z
+ 4a0:	84 60       	ori	r24, 0x04	; 4
+ 4a2:	8c 93       	st	X, r24
+		break ;
+	}
+	SET_BIT(ADCSRA , 6) ;
+ 4a4:	a6 e2       	ldi	r26, 0x26	; 38
+ 4a6:	b0 e0       	ldi	r27, 0x00	; 0
+ 4a8:	e6 e2       	ldi	r30, 0x26	; 38
+ 4aa:	f0 e0       	ldi	r31, 0x00	; 0
+ 4ac:	80 81       	ld	r24, Z
+ 4ae:	80 64       	ori	r24, 0x40	; 64
+ 4b0:	8c 93       	st	X, r24
+}
+ 4b2:	0f 90       	pop	r0
+ 4b4:	0f 90       	pop	r0
+ 4b6:	0f 90       	pop	r0
+ 4b8:	cf 91       	pop	r28
+ 4ba:	df 91       	pop	r29
+ 4bc:	08 95       	ret
+
+000004be <MADC_u16GetDataUsingInterrupt>:
+
+u16  MADC_u16GetDataUsingInterrupt (void)
+{
+ 4be:	df 93       	push	r29
+ 4c0:	cf 93       	push	r28
+ 4c2:	cd b7       	in	r28, 0x3d	; 61
+ 4c4:	de b7       	in	r29, 0x3e	; 62
+	return ADC ;
+ 4c6:	e4 e2       	ldi	r30, 0x24	; 36
+ 4c8:	f0 e0       	ldi	r31, 0x00	; 0
+ 4ca:	80 81       	ld	r24, Z
+ 4cc:	91 81       	ldd	r25, Z+1	; 0x01
+}
+ 4ce:	cf 91       	pop	r28
+ 4d0:	df 91       	pop	r29
+ 4d2:	08 95       	ret
+
+000004d4 <MADC_u16GetDataUsingPolling>:
+
+u16  MADC_u16GetDataUsingPolling (void)
+{
+ 4d4:	df 93       	push	r29
+ 4d6:	cf 93       	push	r28
+ 4d8:	cd b7       	in	r28, 0x3d	; 61
+ 4da:	de b7       	in	r29, 0x3e	; 62
+	while (READ_BIT(ADCSRA , 4) == 0) ;
+ 4dc:	e6 e2       	ldi	r30, 0x26	; 38
+ 4de:	f0 e0       	ldi	r31, 0x00	; 0
+ 4e0:	80 81       	ld	r24, Z
+ 4e2:	88 2f       	mov	r24, r24
+ 4e4:	90 e0       	ldi	r25, 0x00	; 0
+ 4e6:	80 71       	andi	r24, 0x10	; 16
+ 4e8:	90 70       	andi	r25, 0x00	; 0
+ 4ea:	95 95       	asr	r25
+ 4ec:	87 95       	ror	r24
+ 4ee:	95 95       	asr	r25
+ 4f0:	87 95       	ror	r24
+ 4f2:	95 95       	asr	r25
+ 4f4:	87 95       	ror	r24
+ 4f6:	95 95       	asr	r25
+ 4f8:	87 95       	ror	r24
+ 4fa:	00 97       	sbiw	r24, 0x00	; 0
+ 4fc:	79 f3       	breq	.-34     	; 0x4dc <MADC_u16GetDataUsingPolling+0x8>
+	SET_BIT(ADCSRA , 4) ;
+ 4fe:	a6 e2       	ldi	r26, 0x26	; 38
+ 500:	b0 e0       	ldi	r27, 0x00	; 0
+ 502:	e6 e2       	ldi	r30, 0x26	; 38
+ 504:	f0 e0       	ldi	r31, 0x00	; 0
+ 506:	80 81       	ld	r24, Z
+ 508:	80 61       	ori	r24, 0x10	; 16
+ 50a:	8c 93       	st	X, r24
+	return ADC ;
+ 50c:	e4 e2       	ldi	r30, 0x24	; 36
+ 50e:	f0 e0       	ldi	r31, 0x00	; 0
+ 510:	80 81       	ld	r24, Z
+ 512:	91 81       	ldd	r25, Z+1	; 0x01
+}
+ 514:	cf 91       	pop	r28
+ 516:	df 91       	pop	r29
+ 518:	08 95       	ret
+
+0000051a <MADC_voidCallBack>:
+
+void MADC_voidCallBack (void(*fptr)(void))
+{
+ 51a:	df 93       	push	r29
+ 51c:	cf 93       	push	r28
+ 51e:	00 d0       	rcall	.+0      	; 0x520 <MADC_voidCallBack+0x6>
+ 520:	cd b7       	in	r28, 0x3d	; 61
+ 522:	de b7       	in	r29, 0x3e	; 62
+ 524:	9a 83       	std	Y+2, r25	; 0x02
+ 526:	89 83       	std	Y+1, r24	; 0x01
+	ADC_ptr = fptr ;
+ 528:	89 81       	ldd	r24, Y+1	; 0x01
+ 52a:	9a 81       	ldd	r25, Y+2	; 0x02
+ 52c:	90 93 61 00 	sts	0x0061, r25
+ 530:	80 93 60 00 	sts	0x0060, r24
+}
+ 534:	0f 90       	pop	r0
+ 536:	0f 90       	pop	r0
+ 538:	cf 91       	pop	r28
+ 53a:	df 91       	pop	r29
+ 53c:	08 95       	ret
+
+0000053e <__vector_16>:
+
+void __vector_16 (void)__attribute__((signal)) ;
+void __vector_16 (void)
+{
+ 53e:	1f 92       	push	r1
+ 540:	0f 92       	push	r0
+ 542:	0f b6       	in	r0, 0x3f	; 63
+ 544:	0f 92       	push	r0
+ 546:	11 24       	eor	r1, r1
+ 548:	2f 93       	push	r18
+ 54a:	3f 93       	push	r19
+ 54c:	4f 93       	push	r20
+ 54e:	5f 93       	push	r21
+ 550:	6f 93       	push	r22
+ 552:	7f 93       	push	r23
+ 554:	8f 93       	push	r24
+ 556:	9f 93       	push	r25
+ 558:	af 93       	push	r26
+ 55a:	bf 93       	push	r27
+ 55c:	ef 93       	push	r30
+ 55e:	ff 93       	push	r31
+ 560:	df 93       	push	r29
+ 562:	cf 93       	push	r28
+ 564:	cd b7       	in	r28, 0x3d	; 61
+ 566:	de b7       	in	r29, 0x3e	; 62
+	if(ADC_ptr != 0)
+ 568:	80 91 60 00 	lds	r24, 0x0060
+ 56c:	90 91 61 00 	lds	r25, 0x0061
+ 570:	00 97       	sbiw	r24, 0x00	; 0
+ 572:	29 f0       	breq	.+10     	; 0x57e <__vector_16+0x40>
+	{
+		ADC_ptr () ;
+ 574:	e0 91 60 00 	lds	r30, 0x0060
+ 578:	f0 91 61 00 	lds	r31, 0x0061
+ 57c:	09 95       	icall
+	}
+}
+ 57e:	cf 91       	pop	r28
+ 580:	df 91       	pop	r29
+ 582:	ff 91       	pop	r31
+ 584:	ef 91       	pop	r30
+ 586:	bf 91       	pop	r27
+ 588:	af 91       	pop	r26
+ 58a:	9f 91       	pop	r25
+ 58c:	8f 91       	pop	r24
+ 58e:	7f 91       	pop	r23
+ 590:	6f 91       	pop	r22
+ 592:	5f 91       	pop	r21
+ 594:	4f 91       	pop	r20
+ 596:	3f 91       	pop	r19
+ 598:	2f 91       	pop	r18
+ 59a:	0f 90       	pop	r0
+ 59c:	0f be       	out	0x3f, r0	; 63
+ 59e:	0f 90       	pop	r0
+ 5a0:	1f 90       	pop	r1
+ 5a2:	18 95       	reti
+
+000005a4 <LM35_voidInit>:
+#include "../../LIB/STD_types.h"
+#include "../../MCAL/MADC/ADC.h"
+#include "LM35.h"
+
+void LM35_voidInit(void)
+{
+ 5a4:	df 93       	push	r29
+ 5a6:	cf 93       	push	r28
+ 5a8:	cd b7       	in	r28, 0x3d	; 61
+ 5aa:	de b7       	in	r29, 0x3e	; 62
+	  /* initlization */
+}
+ 5ac:	cf 91       	pop	r28
+ 5ae:	df 91       	pop	r29
+ 5b0:	08 95       	ret
+
+000005b2 <LM35_u8GetTemperature>:
+
+u8 LM35_u8GetTemperature(void)
+{
+ 5b2:	df 93       	push	r29
+ 5b4:	cf 93       	push	r28
+ 5b6:	cd b7       	in	r28, 0x3d	; 61
+ 5b8:	de b7       	in	r29, 0x3e	; 62
+ 5ba:	27 97       	sbiw	r28, 0x07	; 7
+ 5bc:	0f b6       	in	r0, 0x3f	; 63
+ 5be:	f8 94       	cli
+ 5c0:	de bf       	out	0x3e, r29	; 62
+ 5c2:	0f be       	out	0x3f, r0	; 63
+ 5c4:	cd bf       	out	0x3d, r28	; 61
+    u16 L_u16DigitalValue = 0;
+ 5c6:	1f 82       	std	Y+7, r1	; 0x07
+ 5c8:	1e 82       	std	Y+6, r1	; 0x06
+    u32 L_u32MilliVolt = 0;
+ 5ca:	1a 82       	std	Y+2, r1	; 0x02
+ 5cc:	1b 82       	std	Y+3, r1	; 0x03
+ 5ce:	1c 82       	std	Y+4, r1	; 0x04
+ 5d0:	1d 82       	std	Y+5, r1	; 0x05
+    u8  L_u8Temperature = 0;
+ 5d2:	19 82       	std	Y+1, r1	; 0x01
+
+    /* 1. Start conversion on configured channel using MADC */
+    MADC_voidStartConversion(LM35_ADC_CHANNEL);
+ 5d4:	80 e0       	ldi	r24, 0x00	; 0
+ 5d6:	0e 94 63 01 	call	0x2c6	; 0x2c6 <MADC_voidStartConversion>
+
+    /* 2. Get data using polling */
+    L_u16DigitalValue = MADC_u16GetDataUsingPolling();
+ 5da:	0e 94 6a 02 	call	0x4d4	; 0x4d4 <MADC_u16GetDataUsingPolling>
+ 5de:	9f 83       	std	Y+7, r25	; 0x07
+ 5e0:	8e 83       	std	Y+6, r24	; 0x06
+
+    /* 3. Convert Digital Value to Millivolts (VREF = 5000mV) */
+    L_u32MilliVolt = ((u32)L_u16DigitalValue * 5000UL) / 1023UL;
+ 5e2:	8e 81       	ldd	r24, Y+6	; 0x06
+ 5e4:	9f 81       	ldd	r25, Y+7	; 0x07
+ 5e6:	cc 01       	movw	r24, r24
+ 5e8:	a0 e0       	ldi	r26, 0x00	; 0
+ 5ea:	b0 e0       	ldi	r27, 0x00	; 0
+ 5ec:	28 e8       	ldi	r18, 0x88	; 136
+ 5ee:	33 e1       	ldi	r19, 0x13	; 19
+ 5f0:	40 e0       	ldi	r20, 0x00	; 0
+ 5f2:	50 e0       	ldi	r21, 0x00	; 0
+ 5f4:	bc 01       	movw	r22, r24
+ 5f6:	cd 01       	movw	r24, r26
+ 5f8:	0e 94 50 03 	call	0x6a0	; 0x6a0 <__mulsi3>
+ 5fc:	dc 01       	movw	r26, r24
+ 5fe:	cb 01       	movw	r24, r22
+ 600:	2f ef       	ldi	r18, 0xFF	; 255
+ 602:	33 e0       	ldi	r19, 0x03	; 3
+ 604:	40 e0       	ldi	r20, 0x00	; 0
+ 606:	50 e0       	ldi	r21, 0x00	; 0
+ 608:	bc 01       	movw	r22, r24
+ 60a:	cd 01       	movw	r24, r26
+ 60c:	0e 94 6f 03 	call	0x6de	; 0x6de <__udivmodsi4>
+ 610:	da 01       	movw	r26, r20
+ 612:	c9 01       	movw	r24, r18
+ 614:	8a 83       	std	Y+2, r24	; 0x02
+ 616:	9b 83       	std	Y+3, r25	; 0x03
+ 618:	ac 83       	std	Y+4, r26	; 0x04
+ 61a:	bd 83       	std	Y+5, r27	; 0x05
+
+    /* 4. LM35 gives 10mV per degree Celsius */
+    L_u8Temperature = (u8)(L_u32MilliVolt / 10);
+ 61c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 61e:	9b 81       	ldd	r25, Y+3	; 0x03
+ 620:	ac 81       	ldd	r26, Y+4	; 0x04
+ 622:	bd 81       	ldd	r27, Y+5	; 0x05
+ 624:	2a e0       	ldi	r18, 0x0A	; 10
+ 626:	30 e0       	ldi	r19, 0x00	; 0
+ 628:	40 e0       	ldi	r20, 0x00	; 0
+ 62a:	50 e0       	ldi	r21, 0x00	; 0
+ 62c:	bc 01       	movw	r22, r24
+ 62e:	cd 01       	movw	r24, r26
+ 630:	0e 94 6f 03 	call	0x6de	; 0x6de <__udivmodsi4>
+ 634:	da 01       	movw	r26, r20
+ 636:	c9 01       	movw	r24, r18
+ 638:	89 83       	std	Y+1, r24	; 0x01
+
+    return L_u8Temperature;
+ 63a:	89 81       	ldd	r24, Y+1	; 0x01
+}
+ 63c:	27 96       	adiw	r28, 0x07	; 7
+ 63e:	0f b6       	in	r0, 0x3f	; 63
+ 640:	f8 94       	cli
+ 642:	de bf       	out	0x3e, r29	; 62
+ 644:	0f be       	out	0x3f, r0	; 63
+ 646:	cd bf       	out	0x3d, r28	; 61
+ 648:	cf 91       	pop	r28
+ 64a:	df 91       	pop	r29
+ 64c:	08 95       	ret
+
+0000064e <main>:
+#define RED_LED_PIN    7
+
+#define TEMP_THRESHOLD 40
+
+int main(void)
+{
+ 64e:	df 93       	push	r29
+ 650:	cf 93       	push	r28
+ 652:	0f 92       	push	r0
+ 654:	cd b7       	in	r28, 0x3d	; 61
+ 656:	de b7       	in	r29, 0x3e	; 62
+    /* 1. Initialize MADC with Prescaler 64 and VREF = AVCC */
+    MADC_voidInit(ADC_PRESCALLER64, ADC_REF_AVCC);
+ 658:	80 e4       	ldi	r24, 0x40	; 64
+ 65a:	61 e0       	ldi	r22, 0x01	; 1
+ 65c:	0e 94 3e 00 	call	0x7c	; 0x7c <MADC_voidInit>
+
+    /* 2. Initialize LM35 */
+    LM35_voidInit();
+ 660:	0e 94 d2 02 	call	0x5a4	; 0x5a4 <LM35_voidInit>
+
+    /* 3. Set Red LED pin as Output */
+    SET_BIT(LED_DDR_REG, RED_LED_PIN);
+ 664:	a1 e3       	ldi	r26, 0x31	; 49
+ 666:	b0 e0       	ldi	r27, 0x00	; 0
+ 668:	e1 e3       	ldi	r30, 0x31	; 49
+ 66a:	f0 e0       	ldi	r31, 0x00	; 0
+ 66c:	80 81       	ld	r24, Z
+ 66e:	80 68       	ori	r24, 0x80	; 128
+ 670:	8c 93       	st	X, r24
+
+    u8 L_u8CurrentTemp = 0;
+ 672:	19 82       	std	Y+1, r1	; 0x01
+
+    while (1)
+    {
+        /* 4. Read current temperature from LM35 */
+        L_u8CurrentTemp = LM35_u8GetTemperature();
+ 674:	0e 94 d9 02 	call	0x5b2	; 0x5b2 <LM35_u8GetTemperature>
+ 678:	89 83       	std	Y+1, r24	; 0x01
+
+        /* 5. Check Threshold for Temperature (DTC 0x52) */
+        if (L_u8CurrentTemp > TEMP_THRESHOLD)
+ 67a:	89 81       	ldd	r24, Y+1	; 0x01
+ 67c:	89 32       	cpi	r24, 0x29	; 41
+ 67e:	40 f0       	brcs	.+16     	; 0x690 <main+0x42>
+        {
+
+            SET_BIT(LED_PORT_REG, RED_LED_PIN);
+ 680:	a2 e3       	ldi	r26, 0x32	; 50
+ 682:	b0 e0       	ldi	r27, 0x00	; 0
+ 684:	e2 e3       	ldi	r30, 0x32	; 50
+ 686:	f0 e0       	ldi	r31, 0x00	; 0
+ 688:	80 81       	ld	r24, Z
+ 68a:	80 68       	ori	r24, 0x80	; 128
+ 68c:	8c 93       	st	X, r24
+ 68e:	f2 cf       	rjmp	.-28     	; 0x674 <main+0x26>
+        }
+        else
+        {
+
+            CLR_BIT(LED_PORT_REG, RED_LED_PIN);
+ 690:	a2 e3       	ldi	r26, 0x32	; 50
+ 692:	b0 e0       	ldi	r27, 0x00	; 0
+ 694:	e2 e3       	ldi	r30, 0x32	; 50
+ 696:	f0 e0       	ldi	r31, 0x00	; 0
+ 698:	80 81       	ld	r24, Z
+ 69a:	8f 77       	andi	r24, 0x7F	; 127
+ 69c:	8c 93       	st	X, r24
+ 69e:	ea cf       	rjmp	.-44     	; 0x674 <main+0x26>
+
+000006a0 <__mulsi3>:
+ 6a0:	62 9f       	mul	r22, r18
+ 6a2:	d0 01       	movw	r26, r0
+ 6a4:	73 9f       	mul	r23, r19
+ 6a6:	f0 01       	movw	r30, r0
+ 6a8:	82 9f       	mul	r24, r18
+ 6aa:	e0 0d       	add	r30, r0
+ 6ac:	f1 1d       	adc	r31, r1
+ 6ae:	64 9f       	mul	r22, r20
+ 6b0:	e0 0d       	add	r30, r0
+ 6b2:	f1 1d       	adc	r31, r1
+ 6b4:	92 9f       	mul	r25, r18
+ 6b6:	f0 0d       	add	r31, r0
+ 6b8:	83 9f       	mul	r24, r19
+ 6ba:	f0 0d       	add	r31, r0
+ 6bc:	74 9f       	mul	r23, r20
+ 6be:	f0 0d       	add	r31, r0
+ 6c0:	65 9f       	mul	r22, r21
+ 6c2:	f0 0d       	add	r31, r0
+ 6c4:	99 27       	eor	r25, r25
+ 6c6:	72 9f       	mul	r23, r18
+ 6c8:	b0 0d       	add	r27, r0
+ 6ca:	e1 1d       	adc	r30, r1
+ 6cc:	f9 1f       	adc	r31, r25
+ 6ce:	63 9f       	mul	r22, r19
+ 6d0:	b0 0d       	add	r27, r0
+ 6d2:	e1 1d       	adc	r30, r1
+ 6d4:	f9 1f       	adc	r31, r25
+ 6d6:	bd 01       	movw	r22, r26
+ 6d8:	cf 01       	movw	r24, r30
+ 6da:	11 24       	eor	r1, r1
+ 6dc:	08 95       	ret
+
+000006de <__udivmodsi4>:
+ 6de:	a1 e2       	ldi	r26, 0x21	; 33
+ 6e0:	1a 2e       	mov	r1, r26
+ 6e2:	aa 1b       	sub	r26, r26
+ 6e4:	bb 1b       	sub	r27, r27
+ 6e6:	fd 01       	movw	r30, r26
+ 6e8:	0d c0       	rjmp	.+26     	; 0x704 <__udivmodsi4_ep>
+
+000006ea <__udivmodsi4_loop>:
+ 6ea:	aa 1f       	adc	r26, r26
+ 6ec:	bb 1f       	adc	r27, r27
+ 6ee:	ee 1f       	adc	r30, r30
+ 6f0:	ff 1f       	adc	r31, r31
+ 6f2:	a2 17       	cp	r26, r18
+ 6f4:	b3 07       	cpc	r27, r19
+ 6f6:	e4 07       	cpc	r30, r20
+ 6f8:	f5 07       	cpc	r31, r21
+ 6fa:	20 f0       	brcs	.+8      	; 0x704 <__udivmodsi4_ep>
+ 6fc:	a2 1b       	sub	r26, r18
+ 6fe:	b3 0b       	sbc	r27, r19
+ 700:	e4 0b       	sbc	r30, r20
+ 702:	f5 0b       	sbc	r31, r21
+
+00000704 <__udivmodsi4_ep>:
+ 704:	66 1f       	adc	r22, r22
+ 706:	77 1f       	adc	r23, r23
+ 708:	88 1f       	adc	r24, r24
+ 70a:	99 1f       	adc	r25, r25
+ 70c:	1a 94       	dec	r1
+ 70e:	69 f7       	brne	.-38     	; 0x6ea <__udivmodsi4_loop>
+ 710:	60 95       	com	r22
+ 712:	70 95       	com	r23
+ 714:	80 95       	com	r24
+ 716:	90 95       	com	r25
+ 718:	9b 01       	movw	r18, r22
+ 71a:	ac 01       	movw	r20, r24
+ 71c:	bd 01       	movw	r22, r26
+ 71e:	cf 01       	movw	r24, r30
+ 720:	08 95       	ret
+
+00000722 <_exit>:
+ 722:	f8 94       	cli
+
+00000724 <__stop_program>:
+ 724:	ff cf       	rjmp	.-2      	; 0x724 <__stop_program>
